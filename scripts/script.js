@@ -24,9 +24,28 @@ const loadVideos = async () => {
   const data = await res.json();
   displayVideos(data.videos);
 };
+const loadCategoriesVideos = async (id) => {
+  const uri = `https://openapi.programming-hero.com/api/phero-tube/category/${id}`;
+  const res = await fetch(uri);
+  const data = await res.json();
+  displayVideos(data.category);
+};
 // display video
 const displayVideos = (videos) => {
   const videosContainer = document.getElementById("videos-section");
+  videosContainer.innerHTML = "";
+  if (videos.length === 0) {
+    videosContainer.classList.remove("grid");
+    videosContainer.innerHTML = `
+    <div class="min-h-[500px] w-full flex flex-col gap-5 justify-center items-center">
+    <img src="./images/Icon.png" alt="">
+    <h3 class="font-bold text-xl">Oops!! Sorry, There is no content here</h3>
+    </div>
+  `;
+    return;
+  } else {
+    videosContainer.classList.add("grid");
+  }
   videos.forEach((video) => {
     const card = document.createElement("div");
     card.classList = "card card-compact shadow-xl ";
@@ -73,7 +92,7 @@ const displayCategories = (categories) => {
   categories.forEach((element) => {
     const buttonContainer = document.createElement("div");
     buttonContainer.innerHTML = `
-      <button class="btn">${element.category}</button>
+      <button onclick="loadCategoriesVideos(${element.category_id})" class="btn">${element.category}</button>
       `;
     categoriesContainer.appendChild(buttonContainer);
   });
