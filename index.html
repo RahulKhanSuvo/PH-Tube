@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Red Tube</title>
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -26,12 +27,12 @@
                 </label>
             </div>
             <div>
-                <button class="btn">SORT</button>
+                <button onclick="sortByViews()" id="sort-btn" class="btn">SORT</button>
             </div>
         </nav>
     </header>
     <nav id="categories-container" class="flex justify-center gap-3 mt-2">
-
+        <button onclick="reloadPage()" class="btn active category-btn">All</button>
     </nav>
     <main>
         <section id="videos-section" class=" w-11/12 mx-auto my-5 grid grid-cols-1 md:grid-cols-2 gap-3 lg:grid-cols-4">
