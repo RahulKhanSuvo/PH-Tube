@@ -23,8 +23,8 @@ const loadCategories = async () => {
   displayCategories(data.categories);
 };
 // load videos
-const loadVideos = async () => {
-  const uri = "https://openapi.programming-hero.com/api/phero-tube/videos";
+const loadVideos = async (search) => {
+  const uri = `https://openapi.programming-hero.com/api/phero-tube/videos?title=${search}`;
   const res = await fetch(uri);
   const data = await res.json();
   displayVideos(data.videos);
@@ -133,5 +133,8 @@ const displayCategories = (categories) => {
 function reloadPage() {
   location.reload();
 }
-loadVideos();
+document.getElementById("search-input").addEventListener("keyup", (e) => {
+  loadVideos(e.target.value);
+});
+loadVideos("");
 loadCategories();
