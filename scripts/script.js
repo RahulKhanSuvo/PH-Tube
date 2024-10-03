@@ -1,3 +1,15 @@
+function getTimeString(time) {
+  const days = Math.floor(time / 86400);
+  time %= 86400;
+  const hours = Math.floor(time / 3600);
+  time %= 3600;
+  const minutes = Math.floor(time / 60);
+  const secund = time % 60;
+  return days > 0
+    ? `${days} days ${hours} hrs ago`
+    : `${hours} hrs ${minutes} min ${secund} sec ago`;
+}
+
 // load Categories
 const loadCategories = async () => {
   const uri = "https://openapi.programming-hero.com/api/phero-tube/categories";
@@ -19,10 +31,17 @@ const displayVideos = (videos) => {
     const card = document.createElement("div");
     card.classList = "card card-compact shadow-xl ";
     card.innerHTML = `
-       <figure class="h-[200px]">
+       <figure class="h-[200px] relative">
     <img class="w-full h-full object-cover"
       src=${video.thumbnail}
       alt=${video.title} />
+      ${
+        video.others.posted_date?.length === 0
+          ? ""
+          : `<p class="absolute text-white text-sm px-2 bottom-1 right-2 rounded-lg bg-black">${getTimeString(
+              video.others.posted_date
+            )}</p>`
+      }
   </figure>
   <div class="py-5 px-3 flex gap-6">
    <div>
