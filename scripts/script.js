@@ -29,6 +29,20 @@ const loadVideos = async () => {
   const data = await res.json();
   displayVideos(data.videos);
 };
+// loadDetails
+const loadDetails = (id) => {
+  fetch(`https://openapi.programming-hero.com/api/phero-tube/video/${id}`)
+    .then((res) => res.json())
+    .then((data) => displayDetails(data.video));
+};
+const displayDetails = (id) => {
+  const detailContainer = document.getElementById("modal-content");
+  detailContainer.innerHTML = `
+  <img class="w-full rounded-md" src=${id.thumbnail} alt="">
+   <p >${id.description}</p>
+  `;
+  document.getElementById("customModal").showModal();
+};
 const loadCategoriesVideos = async (id) => {
   const uri = `https://openapi.programming-hero.com/api/phero-tube/category/${id}`;
   const res = await fetch(uri);
@@ -63,7 +77,8 @@ const displayVideos = (videos) => {
   }
   videos.forEach((video) => {
     const card = document.createElement("div");
-    card.classList = "card card-compact shadow-xl ";
+    card.classList =
+      "card card-compact shadow-xl transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer";
     card.innerHTML = `
        <figure class="h-[200px] relative">
     <img class="w-full h-full object-cover"
@@ -98,6 +113,9 @@ const displayVideos = (videos) => {
     <p>${video.others.views}</p>
    </div>
   </div>`;
+    card.onclick = () => {
+      loadDetails(video.video_id);
+    };
     videosContainer.appendChild(card);
   });
 };
